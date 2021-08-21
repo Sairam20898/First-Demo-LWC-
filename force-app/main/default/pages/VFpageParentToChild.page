@@ -1,0 +1,15 @@
+<apex:page standardController="Account">
+    <apex:form >
+        <apex:pageBlock >
+            <apex:pageBlockSection columns="1" >
+                <apex:outputField value="{!account.name}"/>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection title="Contacts related to {!account.name} Account">
+                <apex:pageBlockTable value="{!account.contacts}" var="cons">
+                    <apex:column value="{!cons.name}"/>
+                </apex:pageBlockTable>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+    
+    </apex:form>
+</apex:page>

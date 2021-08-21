@@ -1,0 +1,29 @@
+<template>
+    <lightning-card>
+        <div class="slds-p-around_medium">
+            <div class="slds-text-heading_large">
+                <h1>Account Search Details</h1>
+            </div>
+            <lightning-combobox required name="accRecType" label="Account Type" value={accType} placeholder="Select Account Type" options={optionsAccType} onchange={handleAccTypeChange} ></lightning-combobox>
+            <lightning-combobox required name="accSourceType" label="Source Type" value={sourceType} placeholder="Select Source Type" options={optionsSourceType} onchange={handleSourceTypeChange} ></lightning-combobox>
+            <lightning-input required label="Account Name" type="text" name="accountName" value={accountName} onchange={handleOnchangeEvent}></lightning-input>
+            <div class="slds-text-color_inverse-weak"><p>{accountName}</p></div>
+            <lightning-input label="Account Phone" type="phone" name="accountPhone" value={accountPhone} onchange={handleOnchangeEvent}></lightning-input>
+            <div class="slds-text-color_inverse-weak"><p>{accountPhone}</p></div>
+            <lightning-input label="Billing Street" type="text" name="billingStreet" value={billingStreet} onchange={handleOnchangeBillingEvent}></lightning-input>
+            <div class="slds-text-color_inverse-weak"><p>{billingStreet}</p></div>
+            <lightning-input label="Billing City" type="text" name="billingCity" value={billingCity} onchange={handleOnchangeBillingEvent}></lightning-input>
+            <div class="slds-text-color_inverse-weak"><p>{billingCity}</p></div>
+            <lightning-input required label="Billing State" type="text" name="billingState" value={billingState} onchange={handleOnchangeBillingEvent}></lightning-input>
+            <div class="slds-text-color_inverse-weak"><p>{billingState}</p></div>
+            <lightning-input label="Billing Pincode" type="text" name="billingPincode" value={billingPincode} onchange={handleOnchangeBillingEvent}></lightning-input>
+            <div class="slds-text-color_inverse-weak"><p>{billingPincode}</p></div>
+            <div class="slds-clearfix slds-m-vertical_medium">
+                <lightning-button variant="brand" label="Get Account Results" title="It gives List of account records" onclick={getAccountResults} class="slds-m-left_x-small slds-float_right slds-m-left_medium"></lightning-button>  
+                <template if:true={resetVisibility}>
+                    <lightning-button variant="destructive-text" label="Reset Results" title="Resets all data in datatable" onclick={resetAccountResults} class="slds-m-left_x-small slds-float_right slds-m-left_medium"></lightning-button>
+                </template> 
+            </div>
+        </div>
+    </lightning-card>
+</template>

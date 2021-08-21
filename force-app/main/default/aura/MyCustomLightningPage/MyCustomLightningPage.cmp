@@ -1,0 +1,6 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="displayText" type="String" default="Hello, Welcome to Lightning Component Page"/>
+    <div>
+    	<p>{!v.displayText}</p>
+    </div>
+</aura:component>

@@ -1,0 +1,7 @@
+<apex:page controller="InsertDataIntoAccount">
+ <apex:form >
+     <apex:pageBlock title="Enter Account details">
+         Account Name:<apex:inputField value="{!InsertDataIntoAccount.name}"/>
+     </apex:pageBlock>
+ </apex:form>
+</apex:page>

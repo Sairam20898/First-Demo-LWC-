@@ -1,0 +1,15 @@
+<apex:page controller="ListOfAccountRecords">
+    <apex:form >
+        <apex:pageBlock title="List Of Account Records">
+            <apex:pageBlockSection >
+                <apex:pageBlockTable value="{!getListOfAccountRecords}" var="acts">
+                    <apex:column value="{!acts.id}"/>
+                    <apex:column value="{!acts.name}"/>
+                </apex:pageBlockTable>
+                
+            </apex:pageBlockSection>
+        
+        </apex:pageBlock>
+    </apex:form>
+  
+</apex:page>

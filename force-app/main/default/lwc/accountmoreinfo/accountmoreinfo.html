@@ -1,0 +1,17 @@
+<template>
+    <template if:true={visibility}>
+        <lightning-card>
+            <div class="slds-p-around_medium">
+                <h1>More details of the account</h1>
+                <h1>Account Name: {accountName}</h1>
+            </div>
+            <div style="height: 300px;">
+                <lightning-datatable
+                        key-field="id"
+                        data={accountResults}
+                        columns={columns}>
+                </lightning-datatable>
+            </div> 
+        </lightning-card>
+    </template>
+</template>

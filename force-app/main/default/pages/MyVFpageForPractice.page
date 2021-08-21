@@ -1,0 +1,13 @@
+<apex:page sidebar="true" showHeader="true" standardController="account">
+  <apex:form >
+      <apex:pageBlock title="This page Belongs to Sairam Yadav">
+          <apex:pageBlockSection title="Self introduction section" >
+             <apex:inputText value="{!account.name}" />
+             <apex:inputField value="{!account.Rating}"/>
+             <apex:inputField value="{!account.Industry}"/>
+             <apex:commandButton value="doSave" action="{!Save}"/>
+              
+          </apex:pageBlockSection>
+      </apex:pageBlock>
+  </apex:form>
+</apex:page>

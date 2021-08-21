@@ -1,0 +1,27 @@
+<apex:page sidebar="true" standardController="Merchandise__c">
+    <apex:form >
+        <apex:pageBlock title="Merchandise Details" >
+        
+          <apex:pageBlockSection title="Custom Fields" columns="3">
+              <apex:inputField value="{!Merchandise__c.Currency__c}"/>
+              <apex:inputField value="{!Merchandise__c.Stock__c}"/>
+              <apex:inputField value="{!Merchandise__c.Description__c}"/>   
+          </apex:pageBlockSection>
+          
+          <apex:pageBlockSection title="Standard Fields" columns="2">
+              <apex:inputField value="{!Merchandise__c.Name}"/>
+              <apex:inputField value="{!Merchandise__c.OwnerId}"/>
+          </apex:pageBlockSection>
+          
+          <apex:pageBlockSection title="Date Fields" columns="3">
+              <apex:inputField value="{!Merchandise__c.CreatedById}"/>
+              <apex:inputField value="{!Merchandise__c.LastModifiedById}"/>
+          </apex:pageBlockSection>
+          
+          <apex:pageBlockButtons >
+              <apex:commandButton value="Save" action="{!save}" />
+              <apex:commandButton value="Cancel" action="{!cancel}" />
+          </apex:pageBlockButtons>
+      </apex:pageBlock>
+    </apex:form>
+</apex:page>

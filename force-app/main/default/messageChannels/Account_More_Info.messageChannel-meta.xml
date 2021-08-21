@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningMessageChannel xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Message Channel to pass Accounts Name</description>
+    <isExposed>true</isExposed>
+    <lightningMessageFields>
+        <description>Use this field to pass the account name</description>
+        <fieldName>accountName</fieldName>
+    </lightningMessageFields>
+    <masterLabel>RecordCreated</masterLabel>
+</LightningMessageChannel>

@@ -1,0 +1,17 @@
+<apex:page controller="MyCustomController" >
+  <apex:form >
+      <apex:pageBlock title="Enter Account Details">
+          <apex:pageBlockSection columns="2" >
+              <apex:inputField value="{!MyCustomController.name}"/>
+              <apex:inputField value="{!MyCustomController.Type}"/>
+              <apex:inputField value="{!MyCustomController.Industry}"/>
+              <apex:inputField value="{!MyCustomController.Rating}"/>
+              <apex:inputField value="{!MyCustomController.Description}"/>
+              
+          </apex:pageBlockSection>
+          <apex:pageBlockButtons >
+                  <apex:commandButton value="Save Record" action="{!doSave}"/>
+              </apex:pageBlockButtons>
+      </apex:pageBlock>
+  </apex:form>
+</apex:page>

@@ -1,0 +1,16 @@
+<template>
+    <lightning-card>
+        <div class="slds-p-around_medium">
+            <h1>Accounts with having {searchString} in Account and it's Contacts</h1>
+            <div id="contactdetailsdiv" lwc:dom="manual"></div>
+        </div>
+        <div style="height: 300px;">
+            <lightning-datatable
+                    key-field="id"
+                    data={contactResults}
+                    columns={columns}>
+            </lightning-datatable>
+        </div> 
+    </lightning-card>
+    
+</template>

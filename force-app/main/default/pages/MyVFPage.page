@@ -1,0 +1,12 @@
+<apex:page sidebar="true" standardController="Merchandise__c">
+    <apex:form >
+        <apex:pageBlock title="Merchandise Details">
+          <apex:pageBlockSection columns="3">
+              <apex:inputField value="{!Merchandise__c.Name}"/>
+              <apex:inputField value="{!Merchandise__c.Stock__c}"/>
+              <apex:inputField value="{!Merchandise__c.Description__c}"/>
+              
+          </apex:pageBlockSection>
+      </apex:pageBlock>
+    </apex:form>
+</apex:page>

@@ -1,0 +1,22 @@
+<aura:component controller="SaveMerchandiseDetails" implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="headName" type="String" default="Enter your details to save Merchandise details" />
+    <aura:attribute name="merName" type="String" default="" />
+    <aura:attribute name="merDesc" type="String" default="" />
+    <aura:attribute name="merStock" type="String" default="" />
+    <aura:attribute name="merCost" type="String" default="" />
+        <div class="slds-align_absolute-center slds-text-heading_large">
+            {!v.headName}
+        </div>
+        <div class="slds-align_absolute-center">
+            <div class="slds-size_2-of-5">
+                <lightning:input label="Merchandise Name:" name="mName" value="{!v.merName}"/><br/>
+                <lightning:input label="Description:" name="mDesc" value="{!v.merDesc}"/><br/>
+                <lightning:input label="Stock:" name="mStock" value="{!v.merStock}"/><br/>
+                <lightning:input label="Cost:" name="mCost" value="{!v.merCost}"/>
+                <div>
+                    <lightning:button label="Save Merchandise" onclick="{!c.isertIntoMerchandise}"/>
+                </div>
+            </div>
+        </div>   
+    
+</aura:component>
