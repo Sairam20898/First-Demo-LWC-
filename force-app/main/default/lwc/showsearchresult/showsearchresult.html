@@ -5,8 +5,14 @@
             <lightning-datatable
                     key-field="id"
                     data={searchResults}
-                    columns={columns} >
+                    columns={columns}
+                    onrowaction={handleRowAction}
+                    onsave={handleSave}
+                    onrowselection={handleRowSelection} >
             </lightning-datatable>
         </div> 
+        <div class="slds-m-around_medium">
+            <lightning-button variant="destructive" label="Delete All Records" title="Deletes all records permanently from an org" onclick={deleteMultipleRecords} ></lightning-button>
+        </div>
     </lightning-card>
 </template>

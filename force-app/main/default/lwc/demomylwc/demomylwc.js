@@ -7,12 +7,20 @@ import Name_Field from '@salesforce/schema/Account.Name';
 import RecordTypeId_Field from '@salesforce/schema/Account.RecordTypeId';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { getRecord } from 'lightning/uiRecordApi';
+import moreInfoChannel from '@salesforce/messageChannel/Account_More_Info__c';
+import { publish, MessageContext } from 'lightning/messageService';
 
 export default class Demomylwc extends LightningElement {
     inpText = 'Sairam Yadav';
 
     searchResults = [];
     accountDataforCreation;
+    isFirstLWCVisible=true;
+
+    accountName;
+
+    @wire(MessageContext)
+    messageContext;
 
     @wire(getRecord, { recordId: '0015g00000P3vykAAB', fields: [Name_Field], optionalFields:[RecordTypeId_Field] })
     myRecord({data, error}){
@@ -78,6 +86,10 @@ export default class Demomylwc extends LightningElement {
         this.searchResults = event.detail;
     }
 
+    getNewAccData(event){
+        this.searchResults = event.detail;
+    }
+
     createAccountRecord(event){
         console.log(event.detail);
         console.log('accountDataforCreation' + this.accountDataforCreation);
@@ -104,6 +116,17 @@ export default class Demomylwc extends LightningElement {
         .catch(error=>{
             console.log(error);
         })
+    }
+
+    handleMoreInfo(event){
+        this.isFirstLWCVisible = false;
+        const payload = {
+            accountName: this.accountDataforCreation["accountName"],
+            recType:this.accountDataforCreation["recordTypeId"],
+            acSource:this.accountDataforCreation["source"],
+            billingState:this.accountDataforCreation["billingState"],
+            visibility:true};
+        publish(this.messageContext,moreInfoChannel,payload);
     }
 
 }

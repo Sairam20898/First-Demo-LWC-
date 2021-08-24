@@ -6,13 +6,14 @@ import contactMoreInfo from '@salesforce/messageChannel/Contact_More_Info__c';
 
 import { getPicklistValues } from 'lightning/uiObjectInfoApi';
 import { getPicklistValuesByRecordType } from 'lightning/uiObjectInfoApi';
-import { getObjectInfo } from 'lightning/uiObjectInfoApi';
+import { getObjectInfo, getRecord } from 'lightning/uiObjectInfoApi';
 import { getObjectInfos } from 'lightning/uiObjectInfoApi';
 import ACCOUNT_OBJECT from '@salesforce/schema/Account';
 import Employee_OBJECT from '@salesforce/schema/Employee__c';
 import Source_FIELD from '@salesforce/schema/Account.Source__c';
 
 import { publish, MessageContext } from 'lightning/messageService';
+
 export default class Demosecondlwc extends LightningElement {
     resetVisibility = false;
     accountName;
@@ -133,7 +134,6 @@ export default class Demosecondlwc extends LightningElement {
     }
 
     getAccountResults(event){
-        console.log(this.accountName);
         var allValid = this.callAllValidFun();
         if(allValid){
             getAccountData({accountName: this.accountName, address:this.billingState})
@@ -151,7 +151,7 @@ export default class Demosecondlwc extends LightningElement {
                     }
                 }));
 
-                const payload = {accountName:this.accountName, visibility:true}
+                const payload = {accountName:this.accountName, visibility:false}
                 publish(this.mesgContext, moreInfoChannel, payload);
                 publish(this.mesgContext, contactMoreInfo, payload);
             })
@@ -212,6 +212,8 @@ export default class Demosecondlwc extends LightningElement {
 
         const payload = {visibility:false}
         publish(this.mesgContext, moreInfoChannel, payload);
+
+        this.resetVisibility = false;
     }
 
     handleAccTypeChange(event){
@@ -223,4 +225,6 @@ export default class Demosecondlwc extends LightningElement {
         console.log(event);
         this.accSource = event.target.value;
     }
+
+    
 }

@@ -21,7 +21,7 @@
             <div class="slds-clearfix slds-m-vertical_medium">
                 <lightning-button variant="brand" label="Get Account Results" title="It gives List of account records" onclick={getAccountResults} class="slds-m-left_x-small slds-float_right slds-m-left_medium"></lightning-button>  
                 <template if:true={resetVisibility}>
-                    <lightning-button variant="destructive-text" label="Reset Results" title="Resets all data in datatable" onclick={resetAccountResults} class="slds-m-left_x-small slds-float_right slds-m-left_medium"></lightning-button>
+                    <lightning-button variant="destructive-text" label="Reset all data" title="Deletes all selected records from org" onclick={resetAccountResults} class="slds-m-left_x-small slds-float_right slds-m-left_medium"></lightning-button>
                 </template> 
             </div>
         </div>

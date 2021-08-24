@@ -1,23 +1,26 @@
 <template>
-    <!-- <lightning-card>
-        <div class="slds-p-around_medium">
-            <h1>Hello, welcome to all This is my Custom Demo LWC page</h1>   
-            <lightning-input type="text" label="Enter some text" value={inpText} onchange={changeInpValue}></lightning-input>
-            <h2>{inpText}</h2>
-            <div class="slds-size_1-of-5">
-                <lightning-input type="date" name="input1" label="Enter a date" ></lightning-input>
+    <template if:true={isFirstLWCVisible}>
+        <!-- <lightning-card>
+            <div class="slds-p-around_medium">
+                <h1>Hello, welcome to all This is my Custom Demo LWC page</h1>   
+                <lightning-input type="text" label="Enter some text" value={inpText} onchange={changeInpValue}></lightning-input>
+                <h2>{inpText}</h2>
+                <div class="slds-size_1-of-5">
+                    <lightning-input type="date" name="input1" label="Enter a date" ></lightning-input>
+                </div>
             </div>
-        </div>
-    </lightning-card> -->
-    <lightning-layout multiple-rows>
-        <lightning-layout-item size="4" padding="around-small">
-            <c-demosecondlwc ongetaccountdata={handleAccountData} onresetaccountdata={resetHandler}></c-demosecondlwc>
-        </lightning-layout-item>
-        <lightning-layout-item size="8" padding="around-small">
-            <div class="slds-m-around_medium">
-                <lightning-button variant="brand" label="Create New Account Record" title="which is used to create new Account record" onclick={createAccountRecord} ></lightning-button>
-            </div>
-            <c-showsearchresult search-results={searchResults}></c-showsearchresult>
-        </lightning-layout-item>
-    </lightning-layout>
+        </lightning-card> -->
+        <lightning-layout multiple-rows>
+            <lightning-layout-item size="4" padding="around-small">
+                <c-demosecondlwc ongetaccountdata={handleAccountData} onresetaccountdata={resetHandler}></c-demosecondlwc>
+            </lightning-layout-item>
+            <lightning-layout-item size="8" padding="around-small">
+                <div class="slds-m-around_medium">
+                    <lightning-button variant="brand" label="Create New Account Record" title="which is used to create new Account record" onclick={createAccountRecord} ></lightning-button>
+                </div>
+                <c-showsearchresult search-results={searchResults}></c-showsearchresult>
+            </lightning-layout-item>
+        </lightning-layout>
+        <lightning-button variant="brand" label="Proceed Next" onclick={handleMoreInfo} class="" style="margin-right: 1em;margin-left: 108em;"></lightning-button>
+    </template>
 </template>

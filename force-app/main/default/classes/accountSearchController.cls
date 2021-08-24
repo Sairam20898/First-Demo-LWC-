@@ -40,12 +40,28 @@ public with sharing class accountSearchController {
         }
     }
 
-    @AuraEnabled(cacheable=true)
-    public static string getAccountName(String acId){
+
+    @AuraEnabled(cacheable=false)
+    public static string updateAccounts(List<Account> accounts){
         try {
-            return [select name from Account where id=:acId][0].Name;
+            System.debug('accounts: '+accounts);
+            update accounts;
+            return 'Accounts updated';
         } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
+            System.debug(e.getMessage());
+            return e.getMessage();
+            //throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+    @AuraEnabled(cacheable=false)
+    public static string deleteAccounts(List<Account> accounts){
+        try {
+            System.debug('accounts: '+accounts);
+            delete accounts;
+            return 'Successfully Deleted Selected Accounts ';
+        } catch (Exception e) {
+            return 'Not deleted '+e.getMessage();
         }
     }
 }
