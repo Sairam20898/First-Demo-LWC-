@@ -21,6 +21,9 @@ export default class Accountmoreinfo extends LightningElement {
     billingState;
     recType;
     acSource;
+    description;
+    foundedYear;
+    location;
 
     @wire(MessageContext)
     mesgContext;
@@ -122,7 +125,10 @@ export default class Accountmoreinfo extends LightningElement {
             this.domainName = jsonResponse.domain;
             this.accountPhone = jsonResponse.phone;
             this.email = jsonResponse.email;
-            console.log('jsonResponse ===> ' +JSON.stringify(jsonResponse));
+            this.description = jsonResponse.description;
+            this.foundedYear = jsonResponse.foundedYear;
+            this.location = jsonResponse.location;
+            this.console.log('jsonResponse ===> ' +JSON.stringify(jsonResponse));
         })
         .catch(error => {
             console.log('callout error 2 ===> ' + error);
@@ -137,7 +143,10 @@ export default class Accountmoreinfo extends LightningElement {
             'Legal_Name__c' : this.legalName,
             'Phone': this.accountPhone,
             'Source__c':this.acSource,
-            'RecordTypeId':this.recType
+            'RecordTypeId':this.recType,
+            'Description': this.description,
+            'Founded_Year__c': this.foundedYear,
+            'Location__c': this.location
         };
         const Record = {
             "apiName": 'Account',

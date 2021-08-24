@@ -18,10 +18,16 @@
                 <div class="slds-text-color_inverse-weak"><p>{domainName}</p></div>
                 <lightning-input label="Legal Name" type="text" name="legalName" value={legalName} onchange={handleOnchangeEvent}></lightning-input>
                 <div class="slds-text-color_inverse-weak"><p>{legalName}</p></div>
+                <lightning-input label="Description" type="text" name="description" value={description} onchange={handleOnchangeEvent}></lightning-input>
+                <div class="slds-text-color_inverse-weak"><p>{description}</p></div>
+                <lightning-input label="Founded Year" type="number" name="foundedYear" value={foundedYear} onchange={handleOnchangeEvent}></lightning-input>
+                <div class="slds-text-color_inverse-weak"><p>{foundedYear}</p></div>
                 <lightning-input label="Account Phone" type="phone" name="accountPhone" value={accountPhone} onchange={handleOnchangeEvent}></lightning-input>
                 <div class="slds-text-color_inverse-weak"><p>{accountPhone}</p></div>
                 <lightning-input required label="Billing State" type="text" name="billingState" value={billingState} onchange={handleOnchangeEvent}></lightning-input>
                 <div class="slds-text-color_inverse-weak"><p>{billingState}</p></div>
+                <lightning-input required label="Location" type="text" name="location" value={location} onchange={handleOnchangeEvent}></lightning-input>
+                <div class="slds-text-color_inverse-weak"><p>{location}</p></div>
                 
             </div>
             <!-- <div style="height: 300px;">
