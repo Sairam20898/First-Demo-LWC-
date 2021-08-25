@@ -1,9 +1,11 @@
 import { LightningElement, api, wire } from 'lwc';
 import moreInfoChannel from '@salesforce/messageChannel/Account_More_Info__c';
+import otherChannel from '@salesforce/messageChannel/Contact_More_Info__c';
 import getAccountData from '@salesforce/apex/accountSearchController.getAccountResults';
-import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
+import { publish,subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
 import { createRecord } from 'lightning/uiRecordApi';
-
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import insertLogger from '@salesforce/apex/accountSearchController.insertLogger';
 export default class Accountmoreinfo extends LightningElement {
 
     @api visibility;
@@ -78,6 +80,8 @@ export default class Accountmoreinfo extends LightningElement {
 
     handlePrevInfo(event){
         this.visibility = false;   
+        const payload = {isFirstLWCVisible:true}
+        publish(this.messageContext,otherChannel,payload);
     }
 
     fetchCompanyWebSite(companyName){
@@ -157,6 +161,49 @@ export default class Accountmoreinfo extends LightningElement {
             alert('Account created with Id: ' +response.id);
         }).catch(error => {
             alert('Error: ' +JSON.stringify(error));
+            const logData = {
+                Method_Name__c: 'createAccountRecord',
+                Component_Name__c: 'Accountmoreinfo',
+                Error__c: this.handleError(error,'')
+              }
+              insertLogger({log:logData})
+              .then(loggerResult=>{
+                console.log(loggerResult);
+              })
         });
     }
+
+    handleError(error, errorMessage) {
+		var message = errorMessage;
+		if (Array.isArray(error.body)) {
+			message = message + ' ' + error.body.map(e => e.message).join(', ')
+		} else if (typeof error.body.message === 'string') {
+			message = message + ' ' + error.body.message
+		}
+		if (error.body != null && error.body.output != null) {
+			if(error.body.output.errors != null && typeof error.body.output.errors === 'object' && error.body.output.errors.length > 0){
+				error.body.output.errors.forEach(er => {
+				message = message + ' ' + er.errorCode;
+				message = message + ' ' + er.message;
+				if (er.duplicateRecordError != null && typeof er.duplicateRecordError === 'object' && er.duplicateRecordError.matchResults != null && typeof er.duplicateRecordError.matchResults === 'object' && er.duplicateRecordError.matchResults.length > 0) {
+					message = message + ' Following are the matching records';
+					er.duplicateRecordError.matchResults.forEach(erMatchRec => {
+						erMatchRec.matchRecordIds.forEach(matchRec => {
+							message = message + ' ' + matchRec
+						})
+					})
+					}
+				});	
+			}
+			else if(error.body.output.fieldErrors !=null && typeof error.body.output.errors === 'object'){
+				error.body.output.fieldErrors.forEach(x=>{
+					Object.keys(x).forEach(y=>{
+						console.log(y);
+					});
+				});
+			}
+		}
+		return message
+	}
+
 }

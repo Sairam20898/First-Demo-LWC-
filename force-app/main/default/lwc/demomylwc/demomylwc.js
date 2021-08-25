@@ -1,4 +1,4 @@
-import { LightningElement, wire } from 'lwc';
+import { LightningElement, track, wire } from 'lwc';
 import { createRecord } from 'lightning/uiRecordApi';
 import Account_Object from '@salesforce/schema/Account';
 import Source_Field from '@salesforce/schema/Account.Source__c';
@@ -8,7 +8,9 @@ import RecordTypeId_Field from '@salesforce/schema/Account.RecordTypeId';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { getRecord } from 'lightning/uiRecordApi';
 import moreInfoChannel from '@salesforce/messageChannel/Account_More_Info__c';
-import { publish, MessageContext } from 'lightning/messageService';
+import otherChannel from '@salesforce/messageChannel/Contact_More_Info__c';
+
+import { publish, MessageContext,subscribe } from 'lightning/messageService';
 import insertLogger from '@salesforce/apex/accountSearchController.insertLogger'
 
 export default class Demomylwc extends LightningElement {
@@ -17,7 +19,6 @@ export default class Demomylwc extends LightningElement {
     searchResults = [];
     accountDataforCreation;
     isFirstLWCVisible=true;
-
     accountName;
 
     @wire(MessageContext)
@@ -64,8 +65,24 @@ export default class Demomylwc extends LightningElement {
                 this.searchResults.push(accdata);
                 console.log(this.searchResults);
             });
-        }catch(e){
-            console.log(e);
+        }catch(error){
+            console.log(error);
+            this.dispatchEvent(new ShowToastEvent({
+                title: 'Error',
+                message: this.handleError(error,''),
+                variant: 'error',
+                mode: 'sticky'
+            }))
+
+            const logData = {
+                Method_Name__c: 'Handle account data',
+                Component_Name__c: 'Demomylwc',
+                Error__c: this.handleError(error,'')
+              }
+              insertLogger({log:logData})
+              .then(loggerResult=>{
+                console.log(loggerResult);
+              })
         }
         
     }
@@ -81,7 +98,18 @@ export default class Demomylwc extends LightningElement {
                                     }
                                     `
         document.head.appendChild(dataTableStyle);
+        // this.subscribeMethod();
 
+    }
+
+    subscribeMethod(){
+        subscribe(
+            this.messageContext,
+            otherChannel,
+            (mesg) =>{
+                this.isFirstLWCVisible = mesg.isFirstLWCVisible
+            }
+        )
     }
 
     resetHandler(event){

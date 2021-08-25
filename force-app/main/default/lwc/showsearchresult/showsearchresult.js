@@ -1,5 +1,6 @@
 import { LightningElement,api, wire } from 'lwc';
 import { deleteRecord, updateRecord } from 'lightning/uiRecordApi';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import moreInfoChannel from '@salesforce/messageChannel/Account_More_Info__c'; 
 import Name_Field from '@salesforce/schema/Account.Name';
 import Phone_Field from '@salesforce/schema/Account.Phone';
@@ -7,6 +8,7 @@ import Website_Field from '@salesforce/schema/Account.Website';
 import Id_Field from '@salesforce/schema/Account.Id';
 import updateAccounts from '@salesforce/apex/accountSearchController.updateAccounts';
 import deleteAccounts from '@salesforce/apex/accountSearchController.deleteAccounts';
+import insertLogger from '@salesforce/apex/accountSearchController.insertLogger';
 import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
 
 const actions = [
@@ -95,17 +97,27 @@ export default class Showsearchresult extends LightningElement {
                 })
             );
         })
-        .catch(e=>{
-            console.log(e);
+        .catch(error=>{
             this.dispatchEvent(
                 new ShowToastEvent({
                     title: 'Error in updating records',
-                    message: error.body.message,
+                    message: this.handleError(error,''),
                     variant: 'error'
                 })
             );
+
+            const logData = {
+                Method_Name__c: 'handle save method',
+                Component_Name__c: 'Show search result',
+                Error__c: this.handleError(error,'')
+              }
+              insertLogger({log:logData})
+              .then(loggerResult=>{
+                console.log(loggerResult);
+              })
         })
     }
+
 
     updateRow(row){
         const fields = {};
@@ -134,10 +146,19 @@ export default class Showsearchresult extends LightningElement {
                 this.dispatchEvent(
                     new ShowToastEvent({
                         title: 'Error creating record',
-                        message: error.body.message,
+                        message: this.handleError(error,''),
                         variant: 'error'
                     })
                 );
+                const logData = {
+                    Method_Name__c: 'update Row record',
+                    Component_Name__c: 'Show search result',
+                    Error__c: this.handleError(error,'')
+                  }
+                  insertLogger({log:logData})
+                  .then(loggerResult=>{
+                    console.log(loggerResult);
+                  })
             });
     }
 
@@ -151,6 +172,17 @@ export default class Showsearchresult extends LightningElement {
        })
        .catch(error=>{
            console.log('Record Deletion Error' + error);
+           alert(this.handleError(error,''));
+           const logData = {
+                Method_Name__c: 'deleteRow',
+                Component_Name__c: 'Showsearchresult',
+            Error__c: this.handleError(error,'')
+            }
+            insertLogger({log:logData})
+            .then(loggerResult=>{
+                console.log(loggerResult);
+            })
+           
        })
    }
 
@@ -191,7 +223,51 @@ export default class Showsearchresult extends LightningElement {
         })
         .catch(e=>{
             console.log(e);
+            alert(this.handleError(e, ''));
+            const logData = {
+                Method_Name__c: 'deleteMultipleRecords',
+                Component_Name__c: 'Showsearchresults',
+                Error__c: this.handleError(error,'')
+              }
+              insertLogger({log:logData})
+              .then(loggerResult=>{
+                console.log(loggerResult);
+              })
         })
    }
+
+   handleError(error, errorMessage) {
+    var message = errorMessage;
+    if (Array.isArray(error.body)) {
+        message = message + ' ' + error.body.map(e => e.message).join(', ')
+    } else if (typeof error.body.message === 'string') {
+        message = message + ' ' + error.body.message
+    }
+    if (error.body != null && error.body.output != null) {
+        if(error.body.output.errors != null && typeof error.body.output.errors === 'object' && error.body.output.errors.length > 0){
+            error.body.output.errors.forEach(er => {
+            message = message + ' ' + er.errorCode;
+            message = message + ' ' + er.message;
+            if (er.duplicateRecordError != null && typeof er.duplicateRecordError === 'object' && er.duplicateRecordError.matchResults != null && typeof er.duplicateRecordError.matchResults === 'object' && er.duplicateRecordError.matchResults.length > 0) {
+                message = message + ' Following are the matching records';
+                er.duplicateRecordError.matchResults.forEach(erMatchRec => {
+                    erMatchRec.matchRecordIds.forEach(matchRec => {
+                        message = message + ' ' + matchRec
+                    })
+                })
+                }
+            });	
+        }
+        else if(error.body.output.fieldErrors !=null && typeof error.body.output.errors === 'object'){
+            error.body.output.fieldErrors.forEach(x=>{
+                Object.keys(x).forEach(y=>{
+                    console.log(y);
+                });
+            });
+        }
+    }
+    return message
+}
+
 
 }
