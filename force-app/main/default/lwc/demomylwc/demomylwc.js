@@ -10,6 +10,7 @@ import { getRecord } from 'lightning/uiRecordApi';
 import moreInfoChannel from '@salesforce/messageChannel/Account_More_Info__c';
 import { publish, MessageContext } from 'lightning/messageService';
 
+
 export default class Demomylwc extends LightningElement {
     inpText = 'Sairam Yadav';
 
@@ -80,6 +81,7 @@ export default class Demomylwc extends LightningElement {
                                     }
                                     `
         document.head.appendChild(dataTableStyle);
+
     }
 
     resetHandler(event){
@@ -127,6 +129,10 @@ export default class Demomylwc extends LightningElement {
             billingState:this.accountDataforCreation["billingState"],
             visibility:true};
         publish(this.messageContext,moreInfoChannel,payload);
+    }
+
+    changeVisibility(event){
+        this.isFirstLWCVisible = event.detail;
     }
 
 }

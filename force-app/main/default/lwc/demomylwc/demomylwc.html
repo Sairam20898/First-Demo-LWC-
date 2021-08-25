@@ -15,12 +15,18 @@
                 <c-demosecondlwc ongetaccountdata={handleAccountData} onresetaccountdata={resetHandler}></c-demosecondlwc>
             </lightning-layout-item>
             <lightning-layout-item size="8" padding="around-small">
-                <div class="slds-m-around_medium">
-                    <lightning-button variant="brand" label="Create New Account Record" title="which is used to create new Account record" onclick={createAccountRecord} ></lightning-button>
+                <div class="slds-clearfix">
+                    <div class="slds-m-around_medium slds-float_right">
+                        <lightning-button variant="brand" label="Create New Account Record" title="which is used to create new Account record" onclick={createAccountRecord} ></lightning-button>
+                    </div>
                 </div>
                 <c-showsearchresult search-results={searchResults}></c-showsearchresult>
             </lightning-layout-item>
         </lightning-layout>
-        <lightning-button variant="brand" label="Proceed Next" onclick={handleMoreInfo} class="" style="margin-right: 1em;margin-left: 108em;"></lightning-button>
+        <div class="slds-clearfix">
+            <div class="slds-m-around_medium slds-float_right">
+                <lightning-button variant="brand" label="Proceed Next" onclick={handleMoreInfo} class=""></lightning-button>
+            </div>
+        </div>
     </template>
 </template>

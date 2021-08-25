@@ -77,7 +77,7 @@ export default class Accountmoreinfo extends LightningElement {
     }
 
     handlePrevInfo(event){
-        this.visibility = true;
+        this.visibility = false;   
     }
 
     fetchCompanyWebSite(companyName){
