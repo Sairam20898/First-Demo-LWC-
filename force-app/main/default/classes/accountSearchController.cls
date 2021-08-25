@@ -64,4 +64,10 @@ public with sharing class accountSearchController {
             return 'Not deleted '+e.getMessage();
         }
     }
+
+    @AuraEnabled
+    public static string insertLogger(Logger__c log){
+        insert log;
+        return log.Id;
+    }
 }

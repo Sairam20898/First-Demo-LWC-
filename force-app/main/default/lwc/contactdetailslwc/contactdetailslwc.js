@@ -1,7 +1,7 @@
 import { LightningElement, wire } from 'lwc';
 import contactMoreInfo from '@salesforce/messageChannel/Contact_More_Info__c';
 import getContactData from '@salesforce/apex/accountSearchController.getContactData';
-import getAccountName from '@salesforce/apex/accountSearchController.getAccountName';
+// import getAccountName from '@salesforce/apex/accountSearchController.getAccountName';
 import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
 import Name from '@salesforce/schema/Account.Name';
 import { getRecord } from 'lightning/uiRecordApi';
@@ -69,16 +69,16 @@ export default class Contactdetailslwc extends LightningElement {
         });
     }
 
-    getAccountNameFun(accId){
-        getAccountName({acId:accId})
-        .then(results =>{
-            return results;
-            console.log(results);
-        })
-        .catch(error =>{
-            console.log(error);
-        });
-    }
+    // getAccountNameFun(accId){
+    //     getAccountName({acId:accId})
+    //     .then(results =>{
+    //         return results;
+    //         console.log(results);
+    //     })
+    //     .catch(error =>{
+    //         console.log(error);
+    //     });
+    // }
     columns = columns;
     
     

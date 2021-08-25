@@ -15,6 +15,7 @@ const actions = [
 ];
 
 const columns = [
+    { label: 'Select', type: 'checkbox', fieldName: 'select', typeAttributes:{rowId: {fieldName: 'id'}, columnName: 'Click to select the row'}},
     { label: 'Account Name',  editable:true, fieldName: 'name', cellAttributes: {iconName:'standard:account', iconPosition:'Left'}},
     {label: 'Website', fieldName: 'website', type:'text'},
     {label: 'Phone', fieldName: 'phone', type: 'phone' },
@@ -51,6 +52,9 @@ export default class Showsearchresult extends LightningElement {
         this.accountName = mesg.accountName;
     }
     
+    handleGridCheckboxChange(event){
+        console.log(event);
+    }
 
     handleRowAction(event){
         console.log('handle row action'+event);
@@ -77,9 +81,23 @@ export default class Showsearchresult extends LightningElement {
         updateAccounts({accounts: accountsData})
         .then(x=>{
             console.log(x);
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Success',
+                    message: 'Accounts Updated Succesfully',
+                    variant: 'success'
+                })
+            );
         })
         .catch(e=>{
             console.log(e);
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Error in updating records',
+                    message: error.body.message,
+                    variant: 'error'
+                })
+            );
         })
     }
 
@@ -97,9 +115,23 @@ export default class Showsearchresult extends LightningElement {
         updateRecord(Record)
             .then(() => {
                 console.log('success');
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Success',
+                        message: 'Account Updated Succesfully',
+                        variant: 'success'
+                    })
+                );
             })
             .catch(error => {
                 console.log('error');
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Error creating record',
+                        message: error.body.message,
+                        variant: 'error'
+                    })
+                );
             });
     }
 

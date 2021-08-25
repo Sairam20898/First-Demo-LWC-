@@ -2,14 +2,22 @@
 <template>
     <lightning-card  title="Account Search Results">
         <div style="height: 300px;">
-            <lightning-datatable
+            <!-- <lightning-datatable
                     key-field="id"
                     data={searchResults}
                     columns={columns}
                     onrowaction={handleRowAction}
                     onsave={handleSave}
                     onrowselection={handleRowSelection} >
-            </lightning-datatable>
+            </lightning-datatable> -->
+            <c-datatablextended 
+                key-field="id"
+                data={searchResults}
+                columns={columns}
+                onrowaction={handleRowAction}
+                onsave={handleSave}
+                oncheckboxchange={handleGridCheckboxChange}>
+            </c-datatablextended>
         </div> 
         <div class="slds-clearfix">
             <div class="slds-m-around_medium slds-float_right">
