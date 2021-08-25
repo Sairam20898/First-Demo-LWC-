@@ -21,7 +21,9 @@ const columns = [
     {label: 'Phone', fieldName: 'phone', type: 'phone' },
     {label: 'AnnualRevenue', fieldName:'AnnualRevenue', cellAttributes:{iconName:{fieldName:'revenueIcon'},iconPosition:'right',class:{fieldName:'revenueClass'}}},
     {label: 'Billing State', fieldName:'state', type:'text'},
+    { label: 'Upload Files', type:'fileupload',fieldName:'upload'},
     { label: 'Action', type: 'action', typeAttributes: {rowActions:actions }}
+    
 ];
 
 export default class Showsearchresult extends LightningElement {
@@ -53,6 +55,10 @@ export default class Showsearchresult extends LightningElement {
     }
     
     handleGridCheckboxChange(event){
+        console.log(event);
+    }
+
+    handleUploadFile(event){
         console.log(event);
     }
 
