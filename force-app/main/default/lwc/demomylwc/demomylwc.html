@@ -11,6 +11,9 @@
             </div>
         </lightning-card> -->
         <lightning-layout multiple-rows>
+            <lightning-input label="Object Name" value={objectName} onchange={onChangeObjectName}></lightning-input>
+            <lightning-input label="Filter Name" value={filterName} onchange={onChangeFilterName}></lightning-input>
+            <lightning-button variant="brand" label="Navigate To List View" onclick={navigateToListView} class="slds-float_right" style="margin-right: 1em;"></lightning-button>
             <lightning-layout-item size="4" padding="around-small">
                 <c-demosecondlwc ongetaccountdata={handleAccountData} onresetaccountdata={resetHandler}></c-demosecondlwc>
             </lightning-layout-item>

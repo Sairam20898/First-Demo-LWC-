@@ -22,6 +22,8 @@ export default class Demomylwc extends NavigationMixin(LightningElement) {
     accountName;
     valuefromaura;
     navigationURL;
+    objectName;
+    filterName;
 
     @wire(MessageContext)
     messageContext;
@@ -249,5 +251,43 @@ export default class Demomylwc extends NavigationMixin(LightningElement) {
 
         })
     }
+
+    onChangeObjectName(event){
+        this.objectName = event.target.value;
+    }
+
+    onChangeFilterName(event){
+        this.filterName = event.target.value;
+    }
+
+    navigateToListView(){
+        this[NavigationMixin.Navigate]({
+            type: 'standard__objectPage',
+            attributes: {
+                objectApiName: this.objectName,
+                actionName: 'list'
+            },
+            state: {
+                // 'filterName' is a property on the page 'state'
+                // and identifies the target list view.
+                // It may also be an 18 character list view id.
+                filterName: this.filterName // or by 18 char '00BT0000002TONQMA4'
+            }
+        });
+
+        /*this[NavigationMixin.GenerateUrl]({
+            type: 'standard__objectPage',
+            attributes: {
+                objectApiName: this.objectName,
+                actionName: 'list'
+            },
+            state: {
+                filterName: this.filterName
+            }
+            }).then(url=>{
+                window.open(url);
+            })*/
+    }
+
 
 }
