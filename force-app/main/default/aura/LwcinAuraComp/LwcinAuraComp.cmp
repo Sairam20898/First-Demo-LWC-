@@ -1,0 +1,4 @@
+<aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction" access="global" >
+    <aura:attribute name="valuefromaura" type="String" default="Nothing"></aura:attribute>
+    <c:demomylwc valuefromaura="{!v.valuefromaura}" ></c:demomylwc>
+</aura:component>	

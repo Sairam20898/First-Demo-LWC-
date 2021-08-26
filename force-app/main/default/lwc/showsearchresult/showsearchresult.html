@@ -17,7 +17,10 @@
                 onrowaction={handleRowAction}
                 onsave={handleSave}
                 oncheckboxchange={handleGridCheckboxChange}
-                onuploadfile={handleUploadFile}>
+                onuploadfile={handleUploadFile}
+                sorted-by={sortedBy}
+                sorted-direction={sortedDirection}
+                onsort={updateColumnSorting}>
             </c-datatablextended>
         </div> 
         <div class="slds-clearfix">

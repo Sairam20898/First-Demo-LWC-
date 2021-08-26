@@ -18,7 +18,7 @@ const actions = [
 
 const columns = [
     { label: 'Select', type: 'checkbox', fieldName: 'select', typeAttributes:{rowId: {fieldName: 'id'}, columnName: 'Click to select the row'}},
-    { label: 'Account Name',  editable:true, fieldName: 'name', cellAttributes: {iconName:'standard:account', iconPosition:'Left'}},
+    { label: 'Account Name',  editable:true, fieldName: 'name', sortable: true, cellAttributes: {iconName:'standard:account', iconPosition:'Left'}},
     {label: 'Website', fieldName: 'website', type:'text'},
     {label: 'Phone', fieldName: 'phone', type: 'phone' },
     {label: 'AnnualRevenue', fieldName:'AnnualRevenue', cellAttributes:{iconName:{fieldName:'revenueIcon'},iconPosition:'right',class:{fieldName:'revenueClass'}}},
@@ -32,6 +32,8 @@ export default class Showsearchresult extends LightningElement {
     columns = columns;
     actions = actions;
     @api searchResults = [];
+    sortedBy;
+    sortedDirection;
 
     selectedRowIds = [];
 
@@ -40,6 +42,39 @@ export default class Showsearchresult extends LightningElement {
 
     @wire(MessageContext)
     mesgContext;
+
+    updateColumnSorting(event) {
+        var fieldName = event.detail.fieldName;
+        var sortDirection = event.detail.sortDirection;
+        // assign the latest attribute with the sorted column fieldName and sorted direction
+        this.sortedBy = fieldName;
+        if(this.sortedDirection=='asc'){
+            sortDirection = 'desc';
+        }
+        else{
+            sortDirection = 'asc'
+        }
+        this.sortedDirection = sortDirection;
+        this.sortData(fieldName, sortDirection);
+   }
+
+    sortData(fieldname, direction) {
+        let parseData = JSON.parse(JSON.stringify(this.searchResults));
+
+        let keyValue = (a) => {
+            return a[fieldname];
+        };
+
+        let isReverse = direction === 'asc' ? 1 : -1;
+
+        parseData.sort((x, y) => {
+            x = keyValue(x) ? keyValue(x) : ''; 
+            y = keyValue(y) ? keyValue(y) : '';
+
+            return isReverse * ((x > y) - (y > x));
+        });
+        this.searchResults = parseData;
+    }
 
     connectedCallback(){
         this.subscribeToChannelMessage();

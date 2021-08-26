@@ -9,17 +9,19 @@ import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import { getRecord } from 'lightning/uiRecordApi';
 import moreInfoChannel from '@salesforce/messageChannel/Account_More_Info__c';
 import otherChannel from '@salesforce/messageChannel/Contact_More_Info__c';
-
+import { NavigationMixin } from 'lightning/navigation'
 import { publish, MessageContext,subscribe } from 'lightning/messageService';
 import insertLogger from '@salesforce/apex/accountSearchController.insertLogger'
 
-export default class Demomylwc extends LightningElement {
+export default class Demomylwc extends NavigationMixin(LightningElement) {
     inpText = 'Sairam Yadav';
 
     searchResults = [];
     accountDataforCreation;
     isFirstLWCVisible=true;
     accountName;
+    valuefromaura;
+    navigationURL;
 
     @wire(MessageContext)
     messageContext;
@@ -99,6 +101,7 @@ export default class Demomylwc extends LightningElement {
                                     `
         document.head.appendChild(dataTableStyle);
         // this.subscribeMethod();
+        console.log('Value from Aura component'+this.valuefromaura);
 
     }
 
@@ -135,12 +138,14 @@ export default class Demomylwc extends LightningElement {
         createRecord(Record)
         .then(result=>{
             console.log(result);
-            this.dispatchEvent(new ShowToastEvent({
-                title: 'Success',
-                message: 'Account created succesfully ' + result.id,
-                variant: 'success',
-                mode: 'sticky'
-            }))
+            // this.dispatchEvent(new ShowToastEvent({
+            //     title: 'Success',
+            //     message: 'Account created succesfully ' + result.id,
+            //     variant: 'success',
+            //     mode: 'sticky'
+            // }))
+
+            this.navigateToStandardRecordPage(result.id);
         })
         .catch(error=>{
             console.log(error);
@@ -211,6 +216,38 @@ export default class Demomylwc extends LightningElement {
 
     changeVisibility(event){
         this.isFirstLWCVisible = event.detail;
+    }
+
+    navigateToStandardRecordPage(recordId){
+        // this[NavigationMixin.Navigate]({
+        //         type: 'standard__recordPage',
+        //         attributes: {
+        //             recordId: recordId,
+        //             actionName: 'view'
+        //         }
+        //     });
+        this[NavigationMixin.GenerateUrl]({
+            type: 'standard__recordPage',
+            attributes: {
+                recordId: recordId,
+                actionName: 'view'
+            }
+        }).then(url=>{
+            console.log(url);
+            this.navigationURL = url;
+
+            this.dispatchEvent(new ShowToastEvent({
+                title: 'Success',
+                message: 'Account created succesfully. Click {0}',
+                variant: 'success',
+                mode: 'sticky',
+                messageData: [{
+                    url,
+                    label: 'here'
+                }]
+            }))
+
+        })
     }
 
 }
