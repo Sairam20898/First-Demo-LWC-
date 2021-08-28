@@ -1,0 +1,19 @@
+<apex:page showHeader="false" sidebar="false">
+<!-- Begin Default Content REMOVE THIS -->
+<h1>Congratulations</h1>
+This is your new Page
+<!-- End Default Content REMOVE THIS -->
+    <apex:includeLightning />   
+    <div id="LightningComponentid" />    
+    <script>
+    $Lightning.use("c:LwcinApp", function() {
+        $Lightning.createComponent("c:LwcinAuraComp",
+          { 
+          },
+          "LightningComponentid",
+          function(cmp) {
+             console.log('LWC Salesforce driller added in VF page');
+          });
+    });
+    </script>
+</apex:page>
