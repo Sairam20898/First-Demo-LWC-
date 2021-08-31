@@ -15,6 +15,7 @@ import insertLogger from '@salesforce/apex/accountSearchController.insertLogger'
 
 export default class Demomylwc extends NavigationMixin(LightningElement) {
     inpText = 'Sairam Yadav';
+    name;
 
     searchResults = [];
     accountDataforCreation;
