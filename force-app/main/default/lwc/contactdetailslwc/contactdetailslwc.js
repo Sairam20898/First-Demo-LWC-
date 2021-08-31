@@ -55,7 +55,6 @@ export default class Contactdetailslwc extends LightningElement {
     getContactResults(results){
         this.acIndex = 1;
         this.conIndex = 1;
-        var tempData = [];
         results.forEach((e,index) => {
            this.acIndex = this.acIndex+index;
             var con = [];
@@ -76,9 +75,9 @@ export default class Contactdetailslwc extends LightningElement {
             var acData = {
                 name:this.acIndex,
                 accountName:e.Name,
-                dob:"-",
-                phone:"-",
-                email:"-",
+                // dob:"-",
+                // phone:"-",
+                // email:"-",
                 _children:con
             };
             this.data.push(acData);
