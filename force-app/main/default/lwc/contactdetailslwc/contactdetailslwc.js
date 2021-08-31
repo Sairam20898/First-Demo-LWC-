@@ -3,21 +3,22 @@ import contactMoreInfo from '@salesforce/messageChannel/Contact_More_Info__c';
 import getContactData from '@salesforce/apex/accountSearchController.getContactData';
 // import getAccountName from '@salesforce/apex/accountSearchController.getAccountName';
 import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
-import Name from '@salesforce/schema/Account.Name';
-import { getRecord } from 'lightning/uiRecordApi';
-
+import {
+    EXAMPLES_COLUMNS_DEFINITION_BASIC,
+    EXAMPLES_DATA_BASIC,
+} from './sampleData';
 
 const maindiv = document.getElementById('contactdetailsdiv');
-const columns = [
-    {label:'Account Name',fieldName:'AccountId'},
-    {label:'Contact Name',fieldName:'Name'},
-    {label:'Date of Birth',fieldName:'Birthdate', type:'Text'},
-    {label:'Phone',fieldName:'Phone',type:'Phone'},
-    {label:'Email',fieldName:'Email', type:'Email'}
+const gridColumns = [
+    {label:'Contacts under Account', fieldName:'accountName', type:'text'},
+    {label:'Birth Date', fieldName:'dob',type:'text'},
+    {label:'Phone number', fieldName:'phone', type:'Phone'},
+    {label:'Email', fieldName:'email', type:'Email'}
 ];
 export default class Contactdetailslwc extends LightningElement {
-    columns = columns;
-
+    gridColumns = gridColumns;
+    gridData = [];
+    name;
     searchString = '\"Search String\"';
     accountName;
     subscribtionmesg = null;
@@ -54,18 +55,39 @@ export default class Contactdetailslwc extends LightningElement {
     }
 
     getContactResults(results){
-        var res=[];
-        var index = 0;
-        var acName;
         results.forEach(e => {
-            e.Contacts.forEach(c => {
-                this.recordId = c.AccountId;
-                res[index]=c; 
-                console.log(res);
-                index = index+1;
-                this.contactResults = res;
-                console.log(this.contactResults);
+            var con = [];
+            var data = {};
+            console.log(e);
+            console.log(e.Contacts);
+            e.Contacts.forEach( c =>{
+               var conData ={};
+               conData['id'] = c.Id;
+               conData['accountName'] = c.Name;
+               conData['dob'] = c.Birthdate;
+               conData['phone'] = c.Phone;
+               conData['email'] = c.Email;
+               console.log('Contact Details:'+conData);
+               con.push(conData);
             })
+
+            if(e.Contacts.length === 0){
+                data['id'] = e.Id;
+                data['accountName'] = e.Name;
+                data['dob'] = '';
+                data['phone'] = '';
+                data['email'] = '';
+                this.gridData.push(data);
+            } else{
+                data['id'] = e.Id;
+                data['accountName'] = e.Name;
+                data['dob'] = '';
+                data['phone'] = '';
+                data['email'] = '';
+                data['_children'] = con;
+                this.gridData.push(data);
+                console.log(this.gridData);
+            }
         });
     }
 
@@ -78,10 +100,7 @@ export default class Contactdetailslwc extends LightningElement {
     //     .catch(error =>{
     //         console.log(error);
     //     });
-    // }
-    columns = columns;
-    
-    
+    // }    
     getContacts(e){
         const contactDiv = document.createElement('div');
         // contactDiv.innerHTML = `
@@ -98,7 +117,4 @@ export default class Contactdetailslwc extends LightningElement {
         maindiv.appendChild(contactDiv);
         console.log(e.Contacts);
     }
-
-
-
 }
