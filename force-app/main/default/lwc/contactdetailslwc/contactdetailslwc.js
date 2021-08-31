@@ -3,17 +3,13 @@ import contactMoreInfo from '@salesforce/messageChannel/Contact_More_Info__c';
 import getContactData from '@salesforce/apex/accountSearchController.getContactData';
 // import getAccountName from '@salesforce/apex/accountSearchController.getAccountName';
 import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
-import {
-    EXAMPLES_COLUMNS_DEFINITION_BASIC,
-    EXAMPLES_DATA_BASIC,
-} from './sampleData';
 
 const maindiv = document.getElementById('contactdetailsdiv');
 const gridColumns = [
     {label:'Contacts under Account', fieldName:'accountName', type:'text'},
     {label:'Birth Date', fieldName:'dob',type:'text'},
-    {label:'Phone number', fieldName:'phone', type:'Phone'},
-    {label:'Email', fieldName:'email', type:'Email'}
+    {label:'Phone number', fieldName:'phone', type:'text'},
+    {label:'Email', fieldName:'email', type:'text'}
 ];
 export default class Contactdetailslwc extends LightningElement {
     gridColumns = gridColumns;
@@ -57,37 +53,29 @@ export default class Contactdetailslwc extends LightningElement {
     getContactResults(results){
         results.forEach(e => {
             var con = [];
-            var data = {};
             console.log(e);
             console.log(e.Contacts);
             e.Contacts.forEach( c =>{
-               var conData ={};
-               conData['id'] = c.Id;
-               conData['accountName'] = c.Name;
-               conData['dob'] = c.Birthdate;
-               conData['phone'] = c.Phone;
-               conData['email'] = c.Email;
-               console.log('Contact Details:'+conData);
+               var conData ={
+                   name:c.Id,
+                   accountName:c.Name,
+                   dob:c.Birthdate,
+                   phone:c.Phone,
+                   email:c.Email
+               };
                con.push(conData);
-            })
+            });
 
-            if(e.Contacts.length === 0){
-                data['id'] = e.Id;
-                data['accountName'] = e.Name;
-                data['dob'] = '';
-                data['phone'] = '';
-                data['email'] = '';
-                this.gridData.push(data);
-            } else{
-                data['id'] = e.Id;
-                data['accountName'] = e.Name;
-                data['dob'] = '';
-                data['phone'] = '';
-                data['email'] = '';
-                data['_children'] = con;
-                this.gridData.push(data);
-                console.log(this.gridData);
-            }
+            var data = {
+                name:e.Id,
+                accountName:e.Name,
+                dob:"",
+                phone:"",
+                email:"",
+                _children:con
+            };
+            this.gridData.push(data);
+            console.log(this.gridData);
         });
     }
 
