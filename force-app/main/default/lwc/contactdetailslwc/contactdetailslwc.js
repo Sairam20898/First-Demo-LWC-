@@ -1,20 +1,22 @@
-import { LightningElement, wire } from 'lwc';
+import { LightningElement, wire, track } from 'lwc';
 import contactMoreInfo from '@salesforce/messageChannel/Contact_More_Info__c';
 import getContactData from '@salesforce/apex/accountSearchController.getContactData';
 // import getAccountName from '@salesforce/apex/accountSearchController.getAccountName';
 import { subscribe, unsubscribe, MessageContext } from 'lightning/messageService';
 
 const maindiv = document.getElementById('contactdetailsdiv');
-const gridColumns = [
+const columns = [
     {label:'Contacts under Account', fieldName:'accountName', type:'text'},
     {label:'Birth Date', fieldName:'dob',type:'text'},
-    {label:'Phone number', fieldName:'phone', type:'text'},
-    {label:'Email', fieldName:'email', type:'text'}
+    {label:'Phone number', fieldName:'phone', type:'phone'},
+    {label:'Email', fieldName:'email', type:'email'}
 ];
 export default class Contactdetailslwc extends LightningElement {
-    gridColumns = gridColumns;
-    gridData = [];
-    name;
+    @track columns = columns;
+    @track data = [];
+
+    acIndex = 1;
+    conIndex = 1;
     searchString = '\"Search String\"';
     accountName;
     subscribtionmesg = null;
@@ -51,13 +53,18 @@ export default class Contactdetailslwc extends LightningElement {
     }
 
     getContactResults(results){
-        results.forEach(e => {
+        this.acIndex = 1;
+        this.conIndex = 1;
+        var tempData = [];
+        results.forEach((e,index) => {
+           this.acIndex = this.acIndex+index;
             var con = [];
             console.log(e);
             console.log(e.Contacts);
-            e.Contacts.forEach( c =>{
+            e.Contacts.forEach( (c,index) =>{
+                this.conIndex = this.conIndex+index;
                var conData ={
-                   name:c.Id,
+                   name:this.acIndex +'-'+this.conIndex,
                    accountName:c.Name,
                    dob:c.Birthdate,
                    phone:c.Phone,
@@ -66,16 +73,17 @@ export default class Contactdetailslwc extends LightningElement {
                con.push(conData);
             });
 
-            var data = {
-                name:e.Id,
+            var acData = {
+                name:this.acIndex,
                 accountName:e.Name,
-                dob:"",
-                phone:"",
-                email:"",
+                dob:"-",
+                phone:"-",
+                email:"-",
                 _children:con
             };
-            this.gridData.push(data);
-            console.log(this.gridData);
+            this.data.push(acData);
+
+            this.data = [...this.data];
         });
     }
 
@@ -105,4 +113,6 @@ export default class Contactdetailslwc extends LightningElement {
         maindiv.appendChild(contactDiv);
         console.log(e.Contacts);
     }
+
+    columns = columns;
 }
